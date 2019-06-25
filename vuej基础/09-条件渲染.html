@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>条件渲染</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div v-if="awesome" >这是 if 的：{{display}}</div>
+    <div v-else>这是else的：{{display}}</div>
+    <button @click="Change">切换按钮</button>
+    <ul>
+        <li v-for="value of item">{{value}}</li>
+    </ul>
+    <template v-for="item of userProfile">
+        <div>{{item.name}}</div>
+        <div>{{item.age}}</div>
+    </template>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            awesome: false,
+            display: '我显示了，你呢？',
+            item:['a','b','c'],
+            userProfile:[
+                {name: 'jck', age: 18},
+                {name: 'npc', age: 18}
+            ]
+        },
+        methods:{
+            Change:function () {
+                this.awesome = !this.awesome;
+            }
+        }
+    });
+    Vue.set(vm.item,3,'newValue');//向数组中添加动态元素
+    vm.$set(vm.item,4,'vmValue'); // 向数组中天健动态元素
+</script>
+</body>
+</html>

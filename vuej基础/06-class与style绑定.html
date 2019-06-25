@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>class与style属性</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+    #app{
+        width: 5.5rem;
+        height: 5.5rem;
+    }
+    .static{
+        color: pink;
+    }
+    .active{
+        background-color: #cccccc;
+    }
+    .text-danger{
+        margin-top: 200px;
+    }
+</style>
+<body>
+<div id="app">
+    <div
+        class='static'
+        v-bind:class="test"
+    >来嘞小老弟~~</div>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            test: {
+                active:true,
+                'text-danger': false
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

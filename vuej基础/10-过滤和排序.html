@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤和排序</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li v-for="n in evenNumber">{{ n }}</li>
+    </ul>
+    <span v-for="m of 10">{{ m }}</span>
+    <template v-for="item in user">
+        <li>{{item.name}}</li>
+        <li>{{item.age}}</li>
+        <li>{{item.gender}}</li>
+    </template>
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            number:[1,2,3,4,5,6],
+            user:[
+                {name:'Jack',age:18,gender:'男'},
+                {name:'Ally',age:18,gender:'女'}
+            ]
+        },
+        computed:{
+            evenNumber:function () {
+                return this.number.filter(function (number) {
+                    return number % 2 === 0;
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件中使用插槽</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <slot-demo> Something bad happened.</slot-demo>
+</div>
+</body>
+<script>
+    // slot 插槽的作用就是预留一个空间出来进行使用
+    Vue.component('slot-demo',{
+        props:[],
+        template:`
+        <div class="demo-slot">
+            <strong>Error!</strong>
+            <slot></slot>
+        </div>
+        `
+    });
+    new Vue({
+        el:'#app'
+    })
+</script>
+</html>

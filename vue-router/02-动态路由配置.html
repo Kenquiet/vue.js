@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态路由配置</title>
+</head>
+<body>
+
+</body>
+<script>
+    const User ={
+        template:'<div>User {{$route.params.id}}</div>'
+    };
+
+    const router = new VueRouter({
+        router:[
+            {path:'user/:id',component:User}
+        ]
+    })
+</script>
+</html>

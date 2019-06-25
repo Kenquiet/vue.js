@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单输入绑定</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <span>Multiple message is:</span>
+    <p style="white-space: pre-line;">{{ message }}</p>
+    <br/>
+    <textarea
+            v-model="message"
+            placeholder="add multiple lines"
+            cols="30" rows="10"
+    ></textarea>
+
+    <!--单选框和复选框-->
+    <br>
+    <input type="checkbox" id="checkbox" v-model="checked">
+    <label for="checkbox">{{checked}}</label>
+
+    <br>
+    <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+    <label for="jack">Jack</label>
+    <input type="checkbox" id="john" value="John" v-model="checkedNames">
+    <label for="john">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+    <label for="mike">Mike</label>
+    <br>
+    <span>Checked names: {{ checkedNames }}</span>
+
+    <br>
+    <!--单选按钮框-->
+    <input type="radio" id="one" value="One" v-model="picked">
+    <label for="one">One</label>
+    <input type="radio" id="two" value="Two" v-model="picked">
+    <label for="two">Two</label>
+    <br>
+    <span>Picked: {{ picked }}</span>
+
+    <br>
+    <br>
+    <!--下拉选择框-->
+    <!--这里disabled 禁止了不选的作用，也就是必须选择一个-->
+    <select v-model="selected">
+        <option disabled value="">请选择</option>
+        <option>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <span>Select:{{ selected}}</span>
+
+    <br>
+    <br>
+    <!--多选选择框。利用for循环进行渲染-->
+    <select v-model="select">
+        <option
+            v-for="option in options"
+            v-bind:value="option.value"
+        >
+            {{option.text}}
+        </option>
+    </select>
+    <span>Select: {{select}}</span>
+
+    <br>
+    <br>
+    <!--绑定值之复选框-->
+    <input
+        type="checkbox"
+        v-model="toggle"
+        true-value="yes"
+        false-value="no"
+        id="toggle"
+    >
+    <label for="toggle">{{ toggle }}</label>
+
+    <br>
+    <br>
+    <!-- number 这个表单输入是经常使用到的，只能输入数字，比如QQ的使用-->
+    <input v-model.number="age" type="number" id="number">
+    <label for="number">输入是：{{age}}</label>
+    <br>
+    <!-- trim 修饰符的作用就是去掉首尾的空字符串-->
+    <input v-model.trim="msg" type="text" id="msg">
+    <label for="msg">输入是：第一个字{{msg}}</label>
+</div>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            message:'',
+            checked:true,
+            checkedNames:[],
+            picked:'',
+            selected:'',
+            select:'A',
+            options:[
+                {text:'One',value:'A'},
+                {text:'Two',value:'B'},
+                {text:'Three',value:'C'}
+            ],
+            toggle:'yes',
+            age:'',
+            msg:''
+        }
+    })
+</script>
+</body>
+</html>

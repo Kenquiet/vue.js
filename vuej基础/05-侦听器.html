@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>侦听器</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>
+        问一个是/不是的问题:
+        <input type="text" v-model="question">
+    </p>
+    <p>{{answer}}</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            question:'',
+            answer:'除非你问问题，否则我是不会回答的！'
+        },
+        watch:{
+            // 当 question 发生变化时，就会执行下面的函数 watch 的用法
+            question: function () {
+                this.answer = '正在等待你停止打字...';
+                this.debouncedGetAnswer()
+            }
+        },
+        created:function () {
+            // _.debounce 作用主要是是用来限制操作的频率，
+            // 这个🌰主要是限制访问 yesno.wtf/api 的频率
+            // 请参考：https://lodash.com/docs#debounce
+            // 通俗的说法就是 防抖
+            this.debouncedGetAnswer =  _.debounce(this.getAnswer, 500)
+        },
+        methods:{
+            getAnswer:function () {
+                if (this.question.indexOf('?') === -1) {
+                   return this.answer = 'Questions usually contain a question mark. ;-)'
+                }
+                this.answer = 'Thinking...';
+                let vm =this;
+                // 基本是 在 methods 里面，请求ajax 获取到数据，然后进行对 data 赋值
+                axios.get('https://yesno.wtf/api')
+                    .then(function (response) {
+                        vm.answer = _.capitalize(response.data.answer)
+                        console.log(response.data);
+                    })
+                    .catch(function () {
+                        vm.answer = 'Error! Could not reach the API. ' + error
+                    })
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性和侦听器</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>{{message}}</p>
+    <p>这是计算属性的：{{reversedMessage}}</p>
+    <p>这是methods的：{{reversed()}}</p>
+    <p>这是侦听器：{{fullName}}</p>
+
+</div>
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            message:'hello vue!',
+            firstName: 'foo',
+            lastName:'Bar'
+        },
+        // 计算机属性具有缓存性，除非依赖发生变化，否则就会直接调用结果并显示出。不必再次执行函数
+        computed: {
+            reversedMessage:function () {
+                return this.message.split('').reverse().join('')
+            },
+            fullName:{
+                get: function () {
+                    return this.firstName + ' ' + this.lastName;
+                },
+                set: function (newValue) {
+                    let names = newValue.split(' ');
+                    console.log(names);
+                    this.firstName = names[0];
+                    this.lastName = names[names.length - 1];
+                }
+            }
+        },
+        methods: {
+           reversed:function () {
+               return this.message.split('').reverse().join('')
+           }
+        }
+
+    })
+</script>
+</body>
+</html>

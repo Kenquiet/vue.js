@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义组件的v-model</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <base-checkbox v-model="lovingVue"></base-checkbox>
+</div>
+</body>
+<script>
+    Vue.component('base-checkbox',{
+        // model 选项的作用就是 阻止 上面 v-model 默认利用 prop：value 和 $emit 为 input 的作用
+        // 也就是说 v-model 会默认找 prop：value 和 $emit('input')，而我们这里没有这个两个
+        // 为了让 v-model 指向我们定义的。model选项就是起到这个作用
+        model: {
+            // 这里命名对应下面的 props
+            prop: 'checked',
+            // 这里的命名事件对应下面的 $emit
+            event: 'change'
+        },
+        props: {
+            checked: Boolean
+        },
+        template: `
+            <div class="checked">
+                <input
+                  type="checkbox"
+                  v-bind:checked="checked"
+                  v-on:change="$emit('change', $event.target.checked)"
+                >
+            </div>
+        `
+    });
+    new Vue({
+        el:'#app',
+        data:{
+            lovingVue:false
+        }
+    })
+</script>
+</html>

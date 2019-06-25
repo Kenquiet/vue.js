@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>试试请求数据</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script>
+    // 结果是 还没请求到数据 mounted 函数钩子就已经执行完成了
+    // this 的问题一定要注意，这次读取不到数据是因为this的指向问题
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            movieData:''
+        },
+        created:function () {
+            let a =this;
+            axios.get('https://yesno.wtf/api')
+                .then(function (response) {
+                    //console.log(response.data);
+                    a.movieData = response.data;
+                    //console.log(a.movieData);
+                })
+        },
+        mounted:function () {
+            let then = this;
+            setTimeout(function(){
+                //console.log(then);
+                console.log(then.movieData);
+            },1000);
+        }
+    })
+</script>
+</body>
+</html>

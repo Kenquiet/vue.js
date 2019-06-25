@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>第一个todoList</title>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="todoList">
+    <div class="header">
+        任务计划列表
+    </div>
+    <!--添加任务区-->
+    <div class="addlist">
+        <h2>添加任务</h2>
+        <input type="text"
+               class="input-list"
+               v-model="input"
+               @keyup.enter="addlist"
+               placeholder="输入添加并按回车结束"
+        >
+    </div>
+    <!--添加导航区-->
+    <div class="navlist">
+        <p class="numlist">{{numlist}}个任务未完成</p>
+        <div class="navbtn">
+            <input type="button" @click="allList" value="所有任务">
+            <input type="button" @click="unfinished" value="未完成任务">
+            <input type="button" @click="finished" value="已完成任务">
+        </div>
+    </div>
+    <!--任务列表-->
+    <div class="list">
+        <p>任务列表</p>
+        <ul id="allList">
+            <li
+                v-show=flag
+                v-for="(item,index) in list"
+                :key="index"
+                ref="isItem"
+                class="fatherLi"
+            >
+                <input type="checkbox" @click="chooseItem($event,index)"/>
+                {{item}}
+            </li>
+            <p class="nolist" v-show=flag2>未添加任何任务</p>
+        </ul>
+    </div>
+</div>
+</body>
+<script>
+    const App = new Vue({
+        el:'#todoList',
+        data:{
+            input: '',
+            numlist: '0',
+            list: ['学习','吃饭','睡觉','玩游戏'],
+            flag: true,  // 任务列表展示
+            flag2: false // 没有添加任何任务展示
+        },
+        mounted(){
+            // 初始化时，让未完成的个数等于计划的个数
+            this.numlist =this.list.length;
+            // 用计划个数，判断那个界面显示与否
+            if (this.list.length>=1){
+                this.flag=true;
+                this.flag2=false;
+            } else {
+                this.flag = false;
+                this.flag2 = true
+            }
+        },
+        methods:{
+            addlist(){
+                if (this.input == '') {
+                    alert("请填写内容")
+                }else {
+                    this.list.push(this.input);
+                }
+                this.input='';
+
+                // 根据项目个数判断界面显示与否
+                this.numlist = this.list.length;
+                if (this.list.length >= 1) {
+                    this.flag=true;
+                    this.flag2=false;
+                }else {
+                    this.flag=false;
+                    this.flag2=true;
+                }
+            },
+            chooseItem(e,index){
+                if (e.target.checked == true) {
+                    this.$refs.isItem[index].style.color='#ccc';
+                    this.$refs.isItem[index].style.textDecoration='line-through';
+                    let checkNum = $('input[type="checkbox"]:checked').length;
+                    this.numlist=this.list.length-checkNum;
+                }else if (e.target.checked == false) {
+                    this.$refs.isItem[index].style.color='#000';
+                    this.$refs.isItem[index].style.textDecoration='none';
+                    let checkNum = $('input[type="checkbox"]:checked').length;
+                    this.numlist=this.list.length-checkNum;
+                }
+            },
+            allList(){
+                $('#allList').children("li").show();
+            },
+            // 未完成计划
+            unfinished(){
+                // 让所有选中的input 的父元素全部隐藏 未完成
+                $("input[type='checkbox']:checked").parent().hide();
+                // 让未选中的 input 的父元素全部显示
+                $("input[type='checkbox']:not(:checked)").parent().show();
+            },
+            finished(){
+                // 让所有选中的 input 的父元素全部显示
+                $("input[type='checkbox']:checked").parent().show();
+                // 让所有未选中的input 的父元素全部隐藏
+                $("input[type='checkbox']:not(:checked)").parent().hide();
+            }
+        },
+
+    })
+</script>
+<style>
+    .header{
+        width: 100%;
+        height: 50px;
+        margin-top:100px;
+        background: #cd1b2d;
+        color: aliceblue;
+        text-align: center;
+        line-height: 50px;
+        font-size: 25px;
+    }
+    .addlist{
+        max-width: 600px;
+        margin:20px auto;
+    }
+    .input-list{
+        width: 400px;
+        height: 30px;
+        margin-top: 20px;
+    }
+    .navlist{
+        max-width: 600px;
+        margin:20px auto;
+        display: flex;
+        justify-content: space-between;
+    }
+    .numlist{
+        color: #cd1b2d;
+    }
+    .navbtn button{
+        margin-left: 20px;
+    }
+    .list{
+        max-width: 600px;
+        margin:30px auto;
+    }
+    .list ul {
+        margin-top:20px;
+    }
+    .list ul li{
+        list-style: none;
+        width: 300px;
+        height: 50px;
+        background: #ffffff;
+        padding-left:30px;
+    }
+    .list ul li input{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-top:15px;
+        margin-right: 10px;
+    }
+    .nolist{
+        width: 300px;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        color: #cd1b2d;
+        margin-top:20px;
+    }
+</style>
+</html>

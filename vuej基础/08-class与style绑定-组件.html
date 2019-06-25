@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>class与style属性</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<style>
+    #app{
+        width: 5.5rem;
+        height: 5.5rem;
+    }
+    .static{
+        color: pink;
+    }
+    .active{
+        background-color: #cccccc;
+    }
+    .text-danger{
+        margin-top: 200px;
+    }
+</style>
+<body>
+<div id="app">
+    <div
+        class='static'
+        :class="test"
+    >来嘞小老弟~~</div>
+    <my-template
+            :item ="sayName"
+            :class="test"
+            :style="styleObject"
+    ></my-template>
+</div>
+<script>
+    Vue.component('my-template',{
+        props:['item'],
+        template:'<div class="static">{{item}}</div>'
+    });
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            test: {
+                active:true,
+                'text-danger': false
+            },
+            sayName:'Ken quiet',
+            styleObject:{
+                'margin-top': '10rem',
+            }
+
+        }
+    })
+</script>
+</body>
+</html>

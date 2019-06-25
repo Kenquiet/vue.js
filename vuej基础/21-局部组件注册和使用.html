@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>局部组件注册和使用</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <component-b></component-b>
+    <component-a></component-a>
+</div>
+</body>
+<script>
+    let ComponentA={
+        template:`
+            <div class="A">
+                <h2>这是ComponentA</h2>
+            </div>
+        `
+    };
+    let ComponentB={
+        template:`
+            <div class="A">
+                <h3>这是ComponentB</h3>
+                <component-a></component-a>
+            </div>
+        `,
+        // 想在componentB中使用A，就必须先进行注册
+        components:{
+            'component-a':ComponentA,
+        }
+    };
+    new Vue({
+        el:'#app',
+        components: {
+            'component-a':ComponentA,
+            'component-b':ComponentB,
+        }
+    })
+</script>
+</html>

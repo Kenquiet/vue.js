@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>props</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <blog-post
+            v-for="news of posts"
+            v-bind:post="news"
+            v-bind:key="news.id"
+    ></blog-post>
+</div>
+</body>
+<script>
+    Vue.component('blog-post',{
+       props:{
+           post:Object,
+       },
+        template:`
+            <div class="blog-post">
+                 <h2>{{post.title}}</h2>
+                 <p v-html="post.content"></p>
+            </div>
+
+        `,
+    });
+    new Vue({
+        el:'#app',
+        data:{
+            posts:[
+                {id:1,title: '新闻标题',content:'新闻内容。。。'},
+                {id:2,title: '新闻标题',content:'新闻内容。。。'}
+            ]
+        }
+    })
+</script>
+</html>

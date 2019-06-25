@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跑马灯</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="button" value="跑起来" @click="runLamp"/>
+    <input type="button" value="停止" @click="stop"/>
+    <h4>{{msg}}</h4>
+</div>
+</body>
+<script>
+    const App = new Vue({
+        el:'#app',
+        data:{
+            msg:'小老弟！跑起来~~~',
+            setIntervalId:null
+        },
+        methods:{
+            runLamp(){
+                // 判断 是否为null 如果为null 着继续运行，防止迭代
+                if (this.setIntervalId !=null) return;
+
+                // setInterval() 方法定时调用
+                this.setIntervalId = setInterval(()=>{
+                    // substring() 方法作用是 字符串的截取
+                   let start = this.msg.substring(0,1);
+                   let end = this.msg.substring(1);
+                   this.msg = end + start;
+               },200)
+            },
+            stop(){
+                // 清除定时调用方法
+                clearInterval(this.setIntervalId);
+                this.setIntervalId = null;
+            }
+        }
+    })
+</script>
+</html>

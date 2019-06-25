@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>生命周期钩子</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <view-item
+        v-bind:item="say"
+    ></view-item>
+</div>
+<script>
+    Vue.component('view-item',{
+       props:['item'],
+       template:'<p>{{item}}</p>'
+    });
+    new Vue({
+        el:'#app',
+        data:{
+            say:'hello vue!'
+        },
+        create:function () {
+        },
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>监听子组件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div :style="{ fontSize: postFontSize + 'em' }">
+        <blog-post
+            v-for="post in posts"
+            v-bind:post="post"
+            v-bind:key="post.id"
+            v-on:enlarge-text="postFontSize += 0.1"
+        ></blog-post>
+    </div>
+    <div :style="{ fontSize: postFontSize + 'em' }">
+        <blog-post
+                v-for="post in posts"
+                v-bind:post="post"
+                v-bind:key="post.id"
+                v-on:enlarge-text="postFontSize += $event"
+        ></blog-post>
+    </div>
+</div>
+<script>
+    Vue.component('blog-post',{
+        props:['post'],
+        template:`
+            <div class="blog-post">
+              <h3>{{ post.title }}</h3>
+              <button v-on:click="$emit('enlarge-text',0.1)">
+                Enlarge text
+              </button>
+              <div v-html="post.content"></div>
+            </div>
+        `
+    });
+    new Vue({
+        el:'#app',
+        data:{
+            posts:[
+                {id:1,title:'Hello 前端',content:'一下内容省略一千字...'}
+            ],
+            postFontSize: 1
+        }
+    })
+</script>
+</body>
+</html>

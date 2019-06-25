@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件修饰符</title>
+</head>
+<body>
+<div id="app">
+    <a href="#" @click.stop="doThis">阻止点击事件传播</a>
+    <form @submit.prevent="onSubmit">
+        <button>提交表单后不再重载页面</button>
+    </form>
+    <a href="#" @click.stop.prevent="doThat">阻止传播并且点击后不再重载页面</a>
+
+    <!-- 添加事件监听器时使用事件捕获模式 -->
+    <!-- 即元素自身触发的事件先在此处理，然后才交由内部元素进行处理 -->
+    <div @click.capture="capThis">捕获模式</div>
+
+    <!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+    <!-- 即事件不是从内部元素触发的 -->
+    <div @click.self="seThat">target</div>
+
+    <!-- 只有按下enter键时才会触发 submit 函数 -->
+    <input @keyup.enter="submit">
+</div>
+</body>
+<script>
+    const vm = new Vue({
+        el:'#app',
+        data:{
+
+        }
+    })
+</script>
+</html>

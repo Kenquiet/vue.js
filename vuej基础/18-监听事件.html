@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>监听事件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div :style="{ fontSize: postFontSize + 'em' }">
+        <blog
+            @enlarge-text="postFontSize += $event"
+            v-for="post in posts"
+            v-bind:key="post.id"
+            v-bind:post="post"
+        ></blog>
+    </div>
+    <custom-input v-model="value"></custom-input>
+</div>
+</body>
+<script>
+    Vue.component('blog',{
+       props:['post'],
+       template:`
+        <div class="blog">
+            <button @click="$emit('enlarge-text',0.1)"> 点击我进行增大文字 </button>
+            <button @click="$emit('enlarge-text',-0.1)"> 点击我进行缩小文字 </button>
+            <h3>{{post.title}}</h3>
+            <p v-html="post.content"></p>
+        </div>
+       `
+    });
+
+    Vue.component('custom-input',{
+        props:['value'],
+        template:`
+            <div class="input">
+                <input
+                    id="value"
+                    v-model="value"
+                    v-on:input="$emit('value', $event.target.value)"
+                >
+                <br>
+                <label for="value">这里输出:{{value}}</label>
+            </div>
+        `
+    });
+
+    new Vue({
+        el:'#app',
+        data:{
+            posts:[
+                {id:1,title:'标题一',content:'内容一'},
+                {id:2,title:'标题二',content:'内容二'}
+            ],
+            postFontSize: 1,
+            value:''
+        }
+    })
+</script>
+</html>
